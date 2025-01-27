@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormHub</title>
+    <!--importing required files-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eater&family=Righteous&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="Logo/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="Logo/favicon.svg" />
+    <link rel="shortcut icon" href="Logo/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="Logo/apple-touch-icon.png" />
+    <link rel="manifest" href="Logo/site.webmanifest" />
+
+
+    <!--styling the web-->
+    <style>
+        *{
+            margin:0;
+            box-sizing: border-box;
+        }
+        body{
+            background: url("Images/filebg.jpeg");
+            background-attachment:fixed;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 100px;
+        }
+        header
+        {
+            font-family: "Righteous", serif;
+            letter-spacing: 4px;
+            background-color: rgb(27, 25, 25);
+            padding: 10px;
+            opacity: 0.8;
+            width: 100%;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index: 1000;
+        }
+        h1{
+            width:100%;
+            color: white;
+            text-align: center;
+            opacity: 1;
+        }
+        #frm
+        {
+            background-color:whitesmoke;
+            width:50%;
+            border: 1px solid #cccccc;
+            box-shadow: 3px 8px 16px rgba(0, 0, 0, 0.2);
+            margin:100px auto;
+            border-radius: 20px;
+        }
+        p{
+            padding: 10px;
+            font-weight: 800;
+            font-family: "Roboto", serif;
+            font-optical-sizing: auto;
+        }
+        input,textarea{
+            width:90%;
+            margin:10px;
+            margin-top: 0px;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid lightblue;
+        }
+        input::placeholder,textarea::placeholder
+        {
+            font-style: italic;
+        }
+        input:focus,textarea:focus{
+            border-color: #006699;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 102, 153, 0.5);
+        }
+        input:focus::placeholder,textarea:focus::placeholder
+        {
+            color: transparent;
+        }
+        textarea
+        {
+            resize: none;
+            height:70px;
+            width:90%;
+        }
+        button[type="submit"]
+        {
+            margin:30px;
+            width:calc(100% - 60px);
+            padding: 15px;
+            border-radius: 20px;
+            background-color: #003366;
+            border:none;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            
+        }
+        button:hover {
+            background-color: #005599;
+            transform: scale(1.02);
+        }
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            padding:10px;
+            margin:10px;
+            margin-top: 0;
+            background-color: aqua;
+            border-radius: 10px;
+        }
+
+        .file-name {
+            margin-top: 0px;
+            font-size: 14px;
+            color: #333;
+            font-style: italic;
+        }
+        .file-label:hover
+        {
+            transform: scale(1.05);
+            background-color: blue;
+            color: aliceblue;
+            box-shadow: 1px 1px 5px rgba(2, 11, 15, 0.5);
+        }
+        .mrg{
+            margin-top: 20px;
+        }
+        .siu{
+            display: flex;
+            margin-bottom: 20px;
+        }
+        @media (max-width:600px) {
+            #frm
+            {
+                width:80%;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fill Your Details</h1>
+    </header>
+    <form id="frm">
+        <p class="mrg">Username:</p>
+        <input type="text" placeholder="Enter Your Username" required id="username" autocomplete="username" pattern="^[a-zA-Z0-9_]+$" title="Only letters, numbers, and underscores are allowed."> <!--change done here pa-->
+        <p>Mail ID:</p>
+        <input type="email" placeholder="Enter Your Mail ID" required id="mail" autocomplete="email">
+        <p>Department:</p>
+        <input type="text" placeholder="Enter Your Department Name" required id="dep" autocomplete="organization">
+        <p>Project Link:</p>
+        <input type="url" placeholder="Updload Your Project Link" required id="link" autocomplete="url">
+        <p>Description:</p>
+        <textarea placeholder="Provide Description About Your Project" required id="desc" autocomplete="off"></textarea>
+        <p>Profile Image:</p>
+        <section class="siu">
+            <input type="file" id="file" accept="image/*" class="file-input" required  autocomplete="off">
+            <label for="file" class="file-label">Choose File</label>
+            <p class="file-name" id="file-name">No file chosen</p>
+        </section>
+        <button type="submit" id="sub">SUBMIT</button>
+    </form>
+    <script>
+
+
+
+       //image input optimisation
+        const fileInput = document.getElementById('file');
+        const fileNameDisplay = document.getElementById('file-name');
+        fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (file && file.size > 2 * 1024 * 1024) {
+            alert("File size must be less than 2MB.");
+            fileInput.value = "";
+            fileNameDisplay.textContent = "No file chosen"; 
+        } else {
+            const fileName = file ? file.name : "No file chosen";
+            fileNameDisplay.innerHTML = fileName + "&#9989;";
+        }
+    });
+
+        //next page travel and data uploading
+        document.getElementById('frm').addEventListener("submit", function(e) {
+            e.preventDefault();
+            const submitButton = document.getElementById("sub");
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+            const uname = document.getElementById("username").value;
+            const ml = document.getElementById("mail").value;
+            const dep=document.getElementById("dep").value;
+            const fileInput = document.getElementById("file");
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                localStorage.setItem("uploadedImage", reader.result);
+            };
+            reader.readAsDataURL(file);
+            } else {
+                alert("Please select an image to upload!");
+            }
+            const jsonData = {
+                uname: uname,
+                ml: ml, 
+                dep: dep
+            };
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            localStorage.setItem("userdata",jsonString);
+
+
+
+
+            
+            //uploading to server
+            fetch("https://sheetdb.io/api/v1/3wdpcayk7gept", {
+                method: 'POST',
+                headers: {
+                    'Authorization':'Bearer n3s9vgsblphxsyz189veo7nwiv1br8fffzkm5r74',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    uname: uname,
+                    mail: ml,
+                    link: link,
+                    desc: desc,
+                    dep:dep
+                 })
+            })
+            .then(response => {
+                console.log('Response Status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+               console.log('SheetDB Response:', data);
+                if (data.created) {
+                    alert('Data saved to Server! Continue');
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Submit";
+                    window.location.href = "printhere(Page2-Display).html"; // ooopen in new tab
+
+                } else {
+                    alert('Data not saved. Check your configuration.');
+                }
+            })
+            .catch(error => {
+                alert('Unable to Upload to Server.');
+                console.error('Error saving data:', error);
+            });
+        });
+
+    </script>
+    
+</body>
+</html>
