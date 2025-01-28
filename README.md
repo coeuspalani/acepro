@@ -67,7 +67,9 @@ SetUp and Usage:
       1.Prerequisites:
                 1.A modern web browser that supports localStorage.
       2. View The Project:
-                1.Project URL: https://coeuspalani.github.io/formhub/
+               	1.Download The Zip File of the Repository.
+		2.Extract the Zip File for Proper Functionality.
+  		3.Click index(Page1-Main).html file.
       3.Instruction:
                 1.Fill out the form on FormHub.
                 2.Upload a profile image (less than 2MB).
